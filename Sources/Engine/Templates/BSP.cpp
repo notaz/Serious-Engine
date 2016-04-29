@@ -1512,7 +1512,10 @@ void BSPTree<Type, iDimensions>::Read_t(CTStream &strm) // throw char *
     BSPNode<Type, iDimensions> &bn = bt_abnNodes[iNode];
     // read it from disk
     //strm.Read_t(&(Plane<Type, iDimensions>&)bn, sizeof(Plane<Type, iDimensions>));
-    strm >> ((Plane<Type, iDimensions>&)bn);
+    //strm >> ((Plane<Type, iDimensions>&)bn);
+    Plane<DOUBLE, iDimensions> tmp;
+    strm >> tmp;
+    ((Plane<FLOAT, iDimensions> &)bn) = DOUBLEtoFLOAT(tmp);
 
     strm>>(INDEX&)bn.bn_bnlLocation;
 

@@ -407,6 +407,8 @@ public:
   /* Create a BSP polygon from this polygon. */
   void CreateBSPPolygon(BSPPolygon<DOUBLE, 3> &bspo);
   void CreateBSPPolygonNonPrecise(BSPPolygon<DOUBLE, 3> &bspo);
+  void CreateBSPPolygon(BSPPolygon<FLOAT, 3> &bspo);
+  void CreateBSPPolygonNonPrecise(BSPPolygon<FLOAT, 3> &bspo);
   /* Create shadow map for the polygon. */
   void MakeShadowMap(CWorld *pwoWorld, BOOL bDoDirectionalLights);
   /* Initialize shadow map for the polygon. */
@@ -562,7 +564,7 @@ public:
   FLOATaabbox3D bsc_boxBoundingBox;                   // bounding box in absolute space
   FLOATaabbox3D bsc_boxRelative;                      // bounding box in relative space
   CListNode bsc_lnInActiveSectors; // node in sectors active in some operation (e.g. rendering)
-  DOUBLEbsptree3D &bsc_bspBSPTree;  // the local bsp tree of the sector
+  FLOATbsptree3D &bsc_bspBSPTree;  // the local bsp tree of the sector
   CRelationDst bsc_rdOtherSidePortals;  // relation to portals pointing to this sector
   CRelationSrc bsc_rsEntities;     // relation to all entities in this sector
   CTString bsc_strName;   // sector name
