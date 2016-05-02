@@ -470,17 +470,24 @@ void CCastRay::TestBrushSector(CBrushSector *pbscSector)
     // don't cast ray
     return;
   }
+
+  const CEntity *l_cr_penOrigin = cr_penOrigin;
+
   // for each polygon in the sector
-  FOREACHINSTATICARRAY(pbscSector->bsc_abpoPolygons, CBrushPolygon, itpoPolygon) {
-    CBrushPolygon &bpoPolygon = itpoPolygon.Current();
+  // FOREACHINSTATICARRAY(pbscSector->bsc_abpoPolygons, CBrushPolygon, itpoPolygon) {
+  CBrushPolygon *itpoPolygon = pbscSector->bsc_abpoPolygons.sa_Array;
+  int i;
+  for (i = 0; i < pbscSector->bsc_abpoPolygons.sa_Count; i++, itpoPolygon++) {
+    CBrushPolygon &bpoPolygon = *itpoPolygon;
 
     if (&bpoPolygon==cr_pbpoIgnore) {
       continue;
     }
 
     ULONG ulFlags = bpoPolygon.bpo_ulFlags;
+    __builtin_prefetch(&itpoPolygon[1].bpo_ulFlags);
     // if not testing recursively
-    if (cr_penOrigin==NULL) {
+    if (l_cr_penOrigin==NULL) {
       // if the polygon is portal
       if (ulFlags&BPOF_PORTAL) {
         // if it is translucent or selected

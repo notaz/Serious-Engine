@@ -869,10 +869,14 @@ void CClipMove::ClipToNonZoningSector(CBrushSector *pbsc)
     CPhysicsProfile::PTI_CLIPTONONZONINGSECTOR, pbsc->bsc_abpoPolygons.Count());
 
   // for each polygon in the sector
-  FOREACHINSTATICARRAY(pbsc->bsc_abpoPolygons, CBrushPolygon, itbpo) {
+  //FOREACHINSTATICARRAY(pbsc->bsc_abpoPolygons, CBrushPolygon, itbpo) {
+  CBrushPolygon *itbpo = pbsc->bsc_abpoPolygons.sa_Array;
+  int i;
+  for (i = 0; i < pbsc->bsc_abpoPolygons.sa_Count; i++, itbpo++) {
     // if its bbox has no contact with bbox of movement path, or it is passable
-    if (!itbpo->bpo_boxBoundingBox.HasContactWith(cm_boxMovementPath)
-      ||(itbpo->bpo_ulFlags&BPOF_PASSABLE)) {
+    __builtin_prefetch(&itbpo[1].bpo_ulFlags);
+    if ((itbpo->bpo_ulFlags&BPOF_PASSABLE)
+      ||!itbpo->bpo_boxBoundingBox.HasContactWith(cm_boxMovementPath)) {
       // skip it
       continue;
     }

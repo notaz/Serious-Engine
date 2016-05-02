@@ -424,20 +424,21 @@ public:
   void Triangulate(void);
 public:
 // interface:
+  FLOATaabbox3D bpo_boxBoundingBox;           // bounding box
+  ULONG bpo_ulFlags;                          // flags
+
   CBrushPlane *bpo_pbplPlane;                 // plane of this polygon
   CStaticArray<CBrushPolygonEdge> bpo_abpePolygonEdges;   // edges in this polygon
   CStaticArray<CBrushVertex *> bpo_apbvxTriangleVertices; // triangle vertices
   CStaticArray<INDEX> bpo_aiTriangleElements; // element indices inside vertex arrays
   CBrushPolygonTexture bpo_abptTextures[3];   // texture on this polygon
   COLOR bpo_colColor;                         // color of this polygon
-  ULONG bpo_ulFlags;                          // flags
   COLOR bpo_colShadow;                        // color of shadow on this polygon
   CBrushShadowMap bpo_smShadowMap;            // shadow map of this polygon
   CMappingDefinition bpo_mdShadow;            // mapping of shadow on polygon
   CBrushPolygonProperties bpo_bppProperties;  // additional properties
   class CScreenPolygon *bpo_pspoScreenPolygon;  // used in rendering
 
-  FLOATaabbox3D bpo_boxBoundingBox;           // bounding box
   CBrushSector *bpo_pbscSector;               // sector of this polygon
 
   CRelationSrc bpo_rsOtherSideSectors;        // relation to sectors on other side of portal
@@ -481,7 +482,7 @@ public:
 
   // get amount of memory used by this object
   SLONG GetUsedMemory(void);
-};
+}  __attribute__((aligned(64)));
 
 // get pointer to embedding brush polygon
 inline CBrushPolygon *CBrushShadowMap::GetBrushPolygon(void) {
